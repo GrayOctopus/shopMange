@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    根目录
+    <router-view></router-view>
   </div>
 </template>
 
@@ -14,4 +14,5 @@ export default {
 </script>
 
 <style>
+@import "assets/css/global.css";
 </style>
