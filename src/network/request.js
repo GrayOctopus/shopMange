@@ -7,7 +7,7 @@ export function request(config) {
       }
   )
   /**
-   * 这是一个相应请求
+   * 拦截一个相应请求
    */
   instance.interceptors.response.use(res => {
     return res.data
