@@ -7,11 +7,21 @@ export function request(config) {
       }
   )
   /**
-   * 拦截一个相应请求
+   * 拦截一个响应
    */
   instance.interceptors.response.use(res => {
     return res.data
   }, err => {
+    console.log(err);
+  })
+
+  /**
+   * 拦截一个请求
+   */
+  instance.interceptors.request.use( config => {
+    config.headers.Authorization = window.sessionStorage.getItem('token')
+    return config
+  },err => {
     console.log(err);
   })
 

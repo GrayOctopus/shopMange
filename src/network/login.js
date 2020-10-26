@@ -10,3 +10,10 @@ export function getLogin (username,password) {
     }
   )
 }
+
+export function getMenuList () {
+  return request({
+        url: '/menus',
+      }
+  )
+}
