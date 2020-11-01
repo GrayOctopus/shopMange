@@ -9,6 +9,7 @@ export function request(config) {
   /**
    * 拦截一个响应
    */
+
   instance.interceptors.response.use(res => {
     return res.data
   }, err => {
@@ -25,5 +26,7 @@ export function request(config) {
     console.log(err);
   })
 
+
   return instance(config)
 }
+
