@@ -21,7 +21,7 @@
      </el-row>
 <!--     用户列表区域-->
      <el-table :data="userList" style="width: 100%" border stripe>
-       <el-table-column type="index"></el-table-column>
+       <el-table-column type="index" label="#"></el-table-column>
        <el-table-column prop="username" label="姓名" ></el-table-column>
        <el-table-column prop="email" label="邮箱" ></el-table-column>
        <el-table-column prop="mobile" label="电话"></el-table-column>
@@ -35,8 +35,8 @@
          <template slot-scope="scope">
            <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog(scope.row.id)"></el-button>
            <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeUserById(scope.row.id)" ></el-button>
-           <el-tooltip effect="dark" content="修改用户" placement="top" :enterable="false" >
-             <el-button type="warning" icon="el-icon-s-tools" size="mini"></el-button>
+           <el-tooltip effect="dark" content="修改用户" placement="top" :enterable="false">
+             <el-button type="warning" icon="el-icon-s-tools" size="mini" @click="setRole(scope.row)"></el-button>
            </el-tooltip>
          </template>
        </el-table-column>
@@ -104,6 +104,30 @@
 <!--       按钮-->
     <el-button @click="editDialogVisible = false">取 消</el-button>
     <el-button type="primary" @click="editUserInfo">确 定</el-button>
+  </span>
+   </el-dialog>
+
+<!--   分配权限的对话框-->
+   <el-dialog
+       title="分配权限"
+       :visible.sync="setRoleDialogVisible"
+       width="50%" @close="setRoleDialogClose">
+     <div>
+       <p>当前用户:{{userInfo.username}}</p>
+       <p>当前角色:{{userInfo.role_name}}</p>
+       <p>分配新角色:
+         <el-select v-model="selectedRoleId" placeholder="请选择">
+         <el-option
+             v-for="item in rolesList"
+             :key="item.id"
+             :label="item.roleName"
+             :value="item.id">
+         </el-option>
+       </el-select></p>
+     </div>
+     <span slot="footer" class="dialog-footer">
+    <el-button @click="setRoleDialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="confirmUserRole">确 定</el-button>
   </span>
    </el-dialog>
 
@@ -183,7 +207,15 @@ export default {
           { required: true, message: '请输入手机号', trigger: 'blur' },
           { validator: checkMobile, trigger: 'blur' }
         ]
-      }
+      },
+    //  分配权限的对话框是否可见
+      setRoleDialogVisible: false,
+    //  用户的信息
+      userInfo: {},
+    //  为用户分配角色的数据
+      rolesList: [],
+    //  下拉菜单中选中的值
+      selectedRoleId: ''
     }
   },
   created() {
@@ -303,22 +335,46 @@ export default {
       }
       this.$message.success('删除用户信息成功!')
       this.getUserList()
+    },
+  //  分配角色
+    async setRole(userInfo) {
+
+      this.userInfo = userInfo
+      const {data:res} = await this.$http.get('roles')
+      if ( res.meta.status !== 200 ) {
+        return this.$message.error('获取用户角色失败!')
+      }
+      this.rolesList = res.data
+      console.log(this.rolesList);
+      this.setRoleDialogVisible = true
+    },
+  //  确定分配角色
+    async confirmUserRole() {
+      if(!this.selectedRoleId) {
+        return this.$message.error('请选择需要分配的角色')
+      }
+
+     const {data:res} =  await this.$http.put(`users/${this.userInfo.id}/role`,{rid:this.selectedRoleId})
+      console.log(this.userInfo);
+      if(res.meta.status !== 200) {
+        return this.$message.error('分配角色失败!')
+      }
+
+      this.$message.success('分配角色成功!')
+      this.getUserList()
+      this.setRoleDialogVisible = false
+    },
+    //监听分配权限的对话框关闭
+    setRoleDialogClose () {
+      this.userInfo = {}
+      this.selectedRoleId = ''
+
     }
   }
 }
 </script>
 
 <style scoped>
-.el-card {
-  box-shadow: 0 1px 1px rgba(0,0,0,0.15);
-}
-.el-breadcrumb {
-  margin-bottom: 10px;
-  font-size: 14px;
-}
-.el-table {
-  margin-top: 20px;
-}
 .el-pagination {
   margin-top: 20px;
 }
