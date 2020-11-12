@@ -6,7 +6,7 @@ const Welcome = () => import('views/home/homeChild/Welcome.vue')
 const Users = () => import('views/home/homeChild/user/Users.vue')
 const Rights = () => import('views/home/homeChild/power/Rights.vue')
 const Roles = () => import('views/home/homeChild/power/Roles.vue')
-
+const Cate = () => import('views/home/homeChild/category/Category.vue')
 Vue.use(VueRouter)
 
 const routes = [
@@ -38,9 +38,13 @@ const routes = [
       {
         path: '/roles',
         component: Roles
+      },
+      {
+        path: '/categories',
+        component: Cate
       }
     ]
-  }
+  },
 ]
 
 const router = new VueRouter({
