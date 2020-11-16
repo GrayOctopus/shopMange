@@ -6,7 +6,8 @@ const Welcome = () => import('views/home/homeChild/Welcome.vue')
 const Users = () => import('views/home/homeChild/user/Users.vue')
 const Rights = () => import('views/home/homeChild/power/Rights.vue')
 const Roles = () => import('views/home/homeChild/power/Roles.vue')
-const Cate = () => import('views/home/homeChild/category/Category.vue')
+const Cate = () => import('views/home/homeChild/goods/Category.vue')
+const Params = () => import('views/home/homeChild/goods/Params.vue')
 Vue.use(VueRouter)
 
 const routes = [
@@ -42,7 +43,11 @@ const routes = [
       {
         path: '/categories',
         component: Cate
-      }
+      },
+      {
+        path: '/params',
+        component: Params
+      },
     ]
   },
 ]
@@ -50,13 +55,16 @@ const routes = [
 const router = new VueRouter({
   routes
 })
+
 //挂载路由导航守卫
 router.beforeEach((to,from,next) => {
     if (to.path === '/login')
       return next()
     const tokenStr = window.sessionStorage.getItem('token')
-    if (!tokenStr)
+    if (!tokenStr){
       return next('/login')
+    }
+
     next()
   }
 )
