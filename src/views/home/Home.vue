@@ -3,8 +3,8 @@
     <!--头部区域-->
     <el-header>
       <div>
-        <img src="~assets/zhangyu.jpg" alt="" class="logo">
-        <span>章鱼后台管理系统</span>
+        <img src="~assets/heima.png" alt="" class="logo">
+        <span>后台管理系统</span>
       </div>
       <el-button type="info" @click="logOut">退出</el-button>
     </el-header>
