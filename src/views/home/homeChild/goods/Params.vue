@@ -70,7 +70,7 @@
               <template slot-scope="scope">
                 <!--                循环渲染的标签数据-->
                 <el-tag type="primary" v-for="(item,i) in scope.row.attr_vals"
-                        :key="i" closable @close="removeTag(i,scope.row)">{{item}}</el-tag>
+                        :key="i" closable @close="removeTag(i,scope.row)" class="tagData">{{item}}</el-tag>
                 <!--                添加标签-->
                 <el-input
                     class="input-new-tag"
@@ -383,5 +383,9 @@ export default {
 }
 .button-new-tag {
   margin: 0 15px;
+}
+
+.el-tag {
+  margin: 10px 15px;
 }
 </style>

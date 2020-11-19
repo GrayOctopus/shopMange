@@ -3,8 +3,8 @@
     <!--头部区域-->
     <el-header>
       <div>
-        <img src="~assets/heima.png" alt="">
-        <span>后台管理系统</span>
+        <img src="~assets/zhangyu.jpg" alt="" class="logo">
+        <span>章鱼后台管理系统</span>
       </div>
       <el-button type="info" @click="logOut">退出</el-button>
     </el-header>
@@ -148,5 +148,10 @@ export default {
   text-align: center;
   letter-spacing: 0.2em;
   cursor: pointer;
+}
+
+.logo {
+  height: 60px;
+  width: 64px;
 }
 </style>
